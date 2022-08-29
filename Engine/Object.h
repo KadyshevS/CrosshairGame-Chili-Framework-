@@ -25,6 +25,8 @@ protected:
 
 	Vec2
 		collLUp,
+		collLDown,
+		collRUp,
 		collRDown;
 
 	unsigned int
@@ -60,9 +62,33 @@ protected:
 	virtual void MoveRight(const float dt) noexcept;
 	void Sprint() noexcept;
 
+public:
+	bool isOverlapped(const Crosshair& other);
+	void ChgColor(const short R, const short G, const short B);
+
+protected:
 	virtual void FixCollision() noexcept;
 
 public:
 	virtual void Draw() noexcept;
 	virtual void Update(Keyboard& kbd, const float dt) noexcept;
+};
+
+class CrosshairEnemy : public Crosshair
+{
+public:
+	CrosshairEnemy() = default;
+	CrosshairEnemy(
+		Graphics& Gfx,
+		const int X = 400,
+		const int Y = 300,
+		const int width = 12,
+		const int height = 12);
+
+	void Init(
+		Graphics& Gfx,
+		const int X = 400,
+		const int Y = 300,
+		const int width = 12,
+		const int height = 12) noexcept override;
 };

@@ -101,10 +101,32 @@ void Crosshair::Sprint() noexcept
 	vel.y = vel.y == 3 * 60.0f ? 10 * 60.0f : 3 * 60.0f;
 }
 
+bool Crosshair::isOverlapped(const Crosshair& other)
+{
+	return
+		(collLUp.x >= other.collLDown.x && collLUp.x <= other.collRDown.x && collLUp.y >= other.collRUp.y   && collLUp.y <= other.collRDown.y)   ||
+		(collLDown.x >= other.collLUp.x && collLDown.x <= other.collRUp.x && collLDown.y >= other.collRUp.y && collLDown.y <= other.collRDown.y) ||
+		(collRUp.x >= other.collLDown.x && collRUp.x <= other.collRDown.x && collRUp.y >= other.collRUp.y   && collRUp.y <= other.collRDown.y)   ||
+		(collRDown.x >= other.collLUp.x && collRDown.x <= other.collRUp.x && collRDown.y >= other.collRUp.y && collRDown.y <= other.collRDown.y) ;
+}
+void Crosshair::ChgColor(const short R, const short G, const short B)
+{
+	color.r = R;
+	color.g = G;
+	color.b = B;
+}
+
 void Crosshair::FixCollision() noexcept
 {
 	collLUp.x = pos.x;
 	collLUp.y = pos.y;
+
+	collRUp.x = pos.x + width;
+	collRUp.y = pos.y;
+
+	collLDown.x = pos.x;
+	collLDown.y = pos.y + height;
+
 	collRDown.x = pos.x + width;
 	collRDown.y = pos.y + height;
 }
