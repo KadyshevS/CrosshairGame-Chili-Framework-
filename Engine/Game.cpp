@@ -43,7 +43,7 @@ void Game::UpdateModel()
 		wnd.Kill();
 
 	const float dt = ft.Mark();
-	curs.Update(wnd.mouse, dt);
+	curs.Update(wnd.kbd, dt);
 }
 
 void Game::ComposeFrame()

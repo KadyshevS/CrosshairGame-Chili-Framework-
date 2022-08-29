@@ -20,14 +20,12 @@ class Crosshair : public Object
 protected:
 	Graphics* gfx;
 
+	int width, height;
 	Color_m color;
-	Vec2 scale;
 
 	Vec2
-		collisionLUp,
-		collisionLDown,
-		collisionRUp,
-		collisionRDown;
+		collLUp,
+		collRDown;
 
 	unsigned int
 		keyUp,
@@ -35,23 +33,27 @@ protected:
 		keyLeft,
 		keyRight;
 
-	unsigned int speed;
-	unsigned int distFromBorders;
+	Vec2 vel;
 	bool inhibitSprint = false;
 
-	bool isInit;
+	bool isInit = false;
 
 public:
-	Crosshair() noexcept;
+	Crosshair() = default;
 	Crosshair(
 		Graphics& Gfx, 
 		const int X = 400, 
-		const int Y = 300) noexcept;
+		const int Y = 300,
+		const int width = 12,
+		const int height = 12) noexcept;
 
-	void Init(Graphics& Gfx, 
+	virtual void Init(Graphics& Gfx, 
 		const int X = 400, 
-		const int Y = 300) noexcept;
+		const int Y = 300,
+		const int width = 12,
+		const int height = 12) noexcept;
 
+protected:
 	virtual void MoveUp(const float dt) noexcept;
 	virtual void MoveDown(const float dt) noexcept;
 	virtual void MoveLeft(const float dt) noexcept;
@@ -60,7 +62,7 @@ public:
 
 	virtual void FixCollision() noexcept;
 
+public:
 	virtual void Draw() noexcept;
 	virtual void Update(Keyboard& kbd, const float dt) noexcept;
-	virtual void Update(Mouse& mouse, const float dt) noexcept;
 };
