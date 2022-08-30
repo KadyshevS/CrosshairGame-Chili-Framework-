@@ -27,7 +27,7 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd )
 {
 	curs.Init(gfx);
-	curs2.Init(gfx, 200, 300);
+	enemy.Init(gfx, 200, 300, 12, 12, CrosshairEnemy::StartDirection::LUp);
 }
 
 void Game::Go()
@@ -45,16 +45,12 @@ void Game::UpdateModel()
 
 	const float dt = ft.Mark();
 
+	enemy.Update(dt);
 	curs.Update(wnd.kbd, dt);
-
-	if (curs.isOverlapped(curs2))
-		curs.ChgColor(0, 255, 0);
-	else
-		curs.ChgColor(255, 0, 0);
 }
 
 void Game::ComposeFrame()
 {
-	curs2.Draw();
+	enemy.Draw();
 	curs.Draw();
 }

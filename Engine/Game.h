@@ -47,5 +47,5 @@ private:
 	/********************************/
 	FrameTimer ft;
 	Crosshair curs;
-	Crosshair curs2;
+	CrosshairEnemy enemy;
 };
