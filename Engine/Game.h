@@ -25,6 +25,7 @@
 #include "Graphics.h"
 #include "FrameTimer.h"
 #include "Object.h"
+#include <random>
 
 class Game
 {
@@ -45,7 +46,15 @@ private:
 	/********************************/
 	/*  User Variables              */
 	/********************************/
+	std::random_device rd;
+	std::mt19937 rng;
+	std::uniform_int_distribution<int> xDist;
+	std::uniform_int_distribution<int> yDist;
+	std::uniform_int_distribution<int> vDist;
+
+	static constexpr unsigned short enemyCount = 10;
+
 	FrameTimer ft;
 	Crosshair curs;
-	CrosshairEnemy enemy;
+	CrosshairEnemy enemies[enemyCount];
 };

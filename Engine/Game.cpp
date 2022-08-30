@@ -24,10 +24,15 @@
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd )
+	gfx( wnd ),
+	rng(rd()),
+	xDist(0, gfx.ScreenWidth-1),
+	yDist(0, gfx.ScreenHeight-1),
+	vDist(0, 3)
 {
+	for (int i = 0; i < enemyCount; i++)
+		enemies[i].Init(gfx, xDist(rng), 14, 14, yDist(rng), vDist(rng));
 	curs.Init(gfx);
-	enemy.Init(gfx, 200, 300, 12, 12, CrosshairEnemy::StartDirection::LUp);
 }
 
 void Game::Go()
@@ -43,14 +48,36 @@ void Game::UpdateModel()
 	if (wnd.kbd.KeyIsPressed(VK_ESCAPE))
 		wnd.Kill();
 
-	const float dt = ft.Mark();
+	bool isAllKilled = false;
+	for (int i = 0; i < enemyCount; i++)
+	{
+		if (enemies[i].killed == true)
+		{
+			isAllKilled = true;
+		}
+		else
+		{
+			isAllKilled = false;
+			break;
+		}
+	}
+	
+	if (isAllKilled)
+		curs.ChgColor(0, 255, 0);
 
-	enemy.Update(dt);
+	for (int i = 0; i < enemyCount; i++)
+		if (curs.isOverlapped(enemies[i]))
+			enemies[i].killed = true;
+
+	const float dt = ft.Mark();
+	for (int i = 0; i < enemyCount; i++)
+		enemies[i].Update(dt);
 	curs.Update(wnd.kbd, dt);
 }
 
 void Game::ComposeFrame()
 {
-	enemy.Draw();
+	for (int i = 0; i < enemyCount; i++)
+		enemies[i].Draw();
 	curs.Draw();
 }

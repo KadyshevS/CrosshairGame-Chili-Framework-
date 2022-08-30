@@ -78,7 +78,6 @@ protected:
 public:
 	virtual void Draw() noexcept;
 	virtual void Update(Keyboard& kbd, const float dt) noexcept;
-
 };
 
 
@@ -89,9 +88,11 @@ public:
 	{
 		LUp, LDown, RUp, RDown
 	};
+	bool killed = false;
 
 private:
 	StartDirection startDir;
+
 
 public:
 	CrosshairEnemy() = default;
@@ -101,7 +102,7 @@ public:
 		const int Y = 300,
 		const int width = 12,
 		const int height = 12,
-		StartDirection StartDir = LUp);
+		const unsigned short StartDir = 0);
 
 	void Init(
 		Graphics& Gfx,
@@ -109,9 +110,9 @@ public:
 		const int Y = 300,
 		const int width = 12,
 		const int height = 12,
-		StartDirection StartDir = LUp) noexcept;
+		const unsigned short StartDir = 0) noexcept;
 
-	//void Draw() override;
+	void Draw() noexcept override;
 	void Update(Keyboard& kbd, const float dt) noexcept override;
 	void Update(const float dt) noexcept;
 };

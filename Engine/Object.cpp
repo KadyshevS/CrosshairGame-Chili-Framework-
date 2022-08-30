@@ -226,7 +226,7 @@ CrosshairEnemy::CrosshairEnemy(
 	const int Y, 
 	const int width, 
 	const int height,
-	StartDirection StartDir)
+	const unsigned short StartDir)
 {
 	Init(Gfx, X, Y, width, height, StartDir);
 }
@@ -237,19 +237,33 @@ void CrosshairEnemy::Init(
 	const int Y, 
 	const int Width, 
 	const int Height,
-	StartDirection StartDir) noexcept
+	const unsigned short StartDir) noexcept
 {
 	gfx = &Gfx;
 
 	pos.Init(X, Y);
-	width = Width;
-	height = Height;
+	width = 14;
+	height = 14;
 	FixCollision();
 
-	startDir = StartDir;
+	switch (StartDir)
+	{
+	case 0:
+		startDir = LUp;
+		break;
+	case 1:
+		startDir = LDown;
+		break;
+	case 2:
+		startDir = RUp;
+		break;
+	case 3:
+		startDir = RDown;
+		break;
+	}
 
 	color.r = 255;
-	color.g = 0;
+	color.g = 255;
 	color.b = 0;
 
 	vel.x = 3 * 60.0f;
@@ -258,32 +272,97 @@ void CrosshairEnemy::Init(
 	isInit = true;
 }
 
-//void CrosshairEnemy::Draw() {}
+void CrosshairEnemy::Draw() noexcept
+{
+	if (!killed)
+	{
+		gfx->PutPixel(pos.x, pos.y, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 1, pos.y, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 2, pos.y, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 3, pos.y, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 4, pos.y, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 5, pos.y, color.r, color.g, color.b);
+
+		gfx->PutPixel(pos.x, pos.y, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x, pos.y + 1, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x, pos.y + 2, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x, pos.y + 3, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x, pos.y + 4, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x, pos.y + 5, color.r, color.g, color.b);
+
+		gfx->PutPixel(pos.x, pos.y + 9, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x, pos.y + 10, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x, pos.y + 11, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x, pos.y + 12, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x, pos.y + 13, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x, pos.y + 14, color.r, color.g, color.b);
+
+		gfx->PutPixel(pos.x, pos.y + 14, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 1, pos.y + 14, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 2, pos.y + 14, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 3, pos.y + 14, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 4, pos.y + 14, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 5, pos.y + 14, color.r, color.g, color.b);
+
+		gfx->PutPixel(pos.x + 9, pos.y, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 10, pos.y, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 11, pos.y, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 12, pos.y, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 13, pos.y, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 14, pos.y, color.r, color.g, color.b);
+
+		gfx->PutPixel(pos.x + 14, pos.y, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 14, pos.y + 1, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 14, pos.y + 2, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 14, pos.y + 3, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 14, pos.y + 4, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 14, pos.y + 5, color.r, color.g, color.b);
+
+		gfx->PutPixel(pos.x + 14, pos.y + 9, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 14, pos.y + 10, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 14, pos.y + 11, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 14, pos.y + 12, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 14, pos.y + 13, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 14, pos.y + 14, color.r, color.g, color.b);
+
+		gfx->PutPixel(pos.x + 9, pos.y + 14, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 10, pos.y + 14, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 11, pos.y + 14, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 12, pos.y + 14, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 13, pos.y + 14, color.r, color.g, color.b);
+		gfx->PutPixel(pos.x + 14, pos.y + 14, color.r, color.g, color.b);
+
+		gfx->PutPixel(pos.x + 7, pos.y + 7, color.r, color.g, color.b);
+	}
+}
 void CrosshairEnemy::Update(Keyboard& kbd, const float dt) noexcept {}
 void CrosshairEnemy::Update(const float dt) noexcept
 {
-	switch (startDir)
+	if (!killed)
 	{
-	case LUp:
-		MoveLeft(dt);
-		MoveUp(dt);
-		break;
-	case LDown:
-		MoveLeft(dt);
-		MoveDown(dt);
-		break;
-	case RUp:
-		MoveRight(dt);
-		MoveUp(dt);
-		break;
-	case RDown:
-		MoveRight(dt);
-		MoveDown(dt);
-		break;
-	}
+		switch (startDir)
+		{
+		case LUp:
+			MoveLeft(dt);
+			MoveUp(dt);
+			break;
+		case LDown:
+			MoveLeft(dt);
+			MoveDown(dt);
+			break;
+		case RUp:
+			MoveRight(dt);
+			MoveUp(dt);
+			break;
+		case RDown:
+			MoveRight(dt);
+			MoveDown(dt);
+			break;
+		}
 
-	if (isCollidedLeft || isCollidedRight)
-		vel.x = -vel.x;
-	if (isCollidedUp || isCollidedDown)
-		vel.y = -vel.y;
+		if (isCollidedLeft || isCollidedRight)
+			vel.x = -vel.x;
+		if (isCollidedUp || isCollidedDown)
+			vel.y = -vel.y;
+	}
 }
